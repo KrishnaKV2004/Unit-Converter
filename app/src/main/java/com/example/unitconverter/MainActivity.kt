@@ -31,10 +31,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.unitconverter.ui.theme.UnitConverterTheme
 import kotlin.math.roundToInt
+
+val samsungOne = FontFamily(
+    Font(R.font.samsung_one_normal, FontWeight.Normal),
+    Font(R.font.samsung_one_bold, FontWeight.Bold)
+)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +62,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun UnitConverter(modifier: Modifier = Modifier) {
+fun UnitConverter() {
 
     var inputValue by remember { mutableStateOf("")}
     var outputValue by remember { mutableStateOf("")}
