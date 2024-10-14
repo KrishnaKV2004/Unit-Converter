@@ -71,13 +71,22 @@ fun UnitConverter() {
     var inputExpanded by remember { mutableStateOf(false)}
     var outputExpanded by remember { mutableStateOf(false)}
     val inpConversionFactor = remember { mutableStateOf(1.00)}
-    val outConversionFactor = remember { mutableStateOf(1.00)}
+    val outConversionFactor = remember { mutableStateOf(0.01)}
 
-    fun convertUnits()
-    {
+    fun convertUnits() {
         val inputValueDouble = inputValue.toDoubleOrNull() ?: 0.0
-        val result = (inputValueDouble * inpConversionFactor.value * 100.0/outConversionFactor.value).roundToInt() / 100.0
-        outputValue = result.toString()
+
+        if (inputUnit == outputUnit) {
+            outputValue = inputValue // If the units are the same, just return the input value as output
+        } else {
+            val result = inputValueDouble * inpConversionFactor.value / outConversionFactor.value
+            // Check if the result is effectively an integer
+            outputValue = if (result % 1.0 == 0.0) {
+                result.toInt().toString() // Convert to integer if no decimal part
+            } else {
+                result.toString() // Otherwise, keep it as a double
+            }
+        }
     }
 
     Column (
