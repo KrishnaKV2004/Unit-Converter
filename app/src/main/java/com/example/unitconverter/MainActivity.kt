@@ -24,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
@@ -64,14 +65,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun UnitConverter() {
 
-    var inputValue by remember { mutableStateOf("")}
-    var outputValue by remember { mutableStateOf("")}
-    var inputUnit by remember { mutableStateOf("Meters")}
-    var outputUnit by remember { mutableStateOf("Centimeters")}
-    var inputExpanded by remember { mutableStateOf(false)}
-    var outputExpanded by remember { mutableStateOf(false)}
-    val inpConversionFactor = remember { mutableStateOf(1.00)}
-    val outConversionFactor = remember { mutableStateOf(0.01)}
+    var inputValue by remember {mutableStateOf("")}
+    var outputValue by remember {mutableStateOf("")}
+    var inputUnit by remember {mutableStateOf("Meters")}
+    var outputUnit by remember {mutableStateOf("Centimeters")}
+    var inputExpanded by remember {mutableStateOf(false)}
+    var outputExpanded by remember {mutableStateOf(false)}
+    val inpConversionFactor = remember {mutableStateOf(1.00)}
+    val outConversionFactor = remember {mutableStateOf(0.01)}
 
     fun convertUnits() {
         val inputValueDouble = inputValue.toDoubleOrNull() ?: 0.0
@@ -80,11 +81,12 @@ fun UnitConverter() {
             outputValue = inputValue // If the units are the same, just return the input value as output
         } else {
             val result = inputValueDouble * inpConversionFactor.value / outConversionFactor.value
+
             // Check if the result is effectively an integer
             outputValue = if (result % 1.0 == 0.0) {
                 result.toInt().toString() // Convert to integer if no decimal part
             } else {
-                result.toString() // Otherwise, keep it as a double
+                String.format("%.2f", result) // Otherwise, keep it as a double with 2 decimal places
             }
         }
     }
@@ -138,7 +140,9 @@ fun UnitConverter() {
                         .width(140.dp)
                         .height(45.dp)
                 ) {
-                    Text(inputUnit)
+                    Text(inputUnit,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                     Icon(Icons.Default.ArrowDropDown, contentDescription = "Arrow Down")
                 }
                 DropdownMenu(expanded = inputExpanded, onDismissRequest = {
@@ -204,7 +208,9 @@ fun UnitConverter() {
                         .width(140.dp)
                         .height(45.dp)
                 ) {
-                    Text(outputUnit)
+                    Text(outputUnit,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                     Icon(Icons.Default.ArrowDropDown, contentDescription = "Arrow Down")
                 }
                 DropdownMenu(expanded = outputExpanded, onDismissRequest = {
@@ -259,10 +265,26 @@ fun UnitConverter() {
             }
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(60.dp))
+
+        var outUnit = "units"
+
+        outUnit = if(outputUnit.toString()=="Meters") {
+            "m"
+        } else if(outputUnit.toString()=="Centimeters") {
+            "cm"
+        } else if(outputUnit.toString()=="Inches") {
+            "in"
+        } else if(outputUnit.toString()=="Feet") {
+            "ft"
+        } else if(outputUnit.toString()=="Millimeters") {
+            "mm"
+        } else {
+            "units"
+        }
 
         Text(
-            "Result : $outputValue $outputUnit",
+            "Result : $outputValue $outUnit",
             style = MaterialTheme.typography.headlineSmall,
         )
     }
