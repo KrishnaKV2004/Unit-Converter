@@ -67,7 +67,7 @@ fun UnitConverter() {
     var inputValue by remember { mutableStateOf("")}
     var outputValue by remember { mutableStateOf("")}
     var inputUnit by remember { mutableStateOf("Meters")}
-    var outputUnit by remember { mutableStateOf("Meters")}
+    var outputUnit by remember { mutableStateOf("Centimeters")}
     var inputExpanded by remember { mutableStateOf(false)}
     var outputExpanded by remember { mutableStateOf(false)}
     val inpConversionFactor = remember { mutableStateOf(1.00)}
